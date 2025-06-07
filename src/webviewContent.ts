@@ -30,6 +30,7 @@ export function getWebviewContent(imageSrc: string): string {
         <button id="moveBtn" class="active-btn">移動モード</button>
         <button id="selectBtn">選択モード</button>
         <button id="markBtn">マーク追加(Ctr+左クリック)</button>
+        <button id="saveBtn">保存</button>
         <label>太さ:
           <select id="lineWidth">
             <option value="2">2px</option>
@@ -54,6 +55,7 @@ export function getWebviewContent(imageSrc: string): string {
       const markBtn = document.getElementById('markBtn');
       const lineWidthSelect = document.getElementById('lineWidth');
       const colorPicker = document.getElementById('colorPicker');
+      const saveBtn = document.getElementById('saveBtn');
 
       // 状態
       let mode = 'move'; // 'move' or 'mark' or 'select'
@@ -114,6 +116,24 @@ export function getWebviewContent(imageSrc: string): string {
         }
         if (changed) pushUndo();
         draw();
+      };
+      saveBtn.onclick = () => {
+        // 元画像サイズのオフスクリーンcanvasで保存
+        const offCanvas = document.createElement('canvas');
+        offCanvas.width = img.width;
+        offCanvas.height = img.height;
+        const offCtx = offCanvas.getContext('2d');
+        offCtx.clearRect(0, 0, offCanvas.width, offCanvas.height);
+        offCtx.drawImage(img, 0, 0);
+        // マークを描画（ズーム・オフセットなし）
+        for (const mark of marks) {
+          drawEllipseRaw(offCtx, mark.x1, mark.y1, mark.x2, mark.y2, mark.color, mark.lineWidth);
+        }
+        const dataUrl = offCanvas.toDataURL('image/png');
+        if (window.acquireVsCodeApi) {
+          const vscode = window.acquireVsCodeApi();
+          vscode.postMessage({ type: 'save-image', dataUrl });
+        }
       };
 
       function setMode(newMode) {
@@ -460,6 +480,23 @@ export function getWebviewContent(imageSrc: string): string {
         const ry = Math.abs(mark.y2 - mark.y1) / 2;
         if (rx < 1e-2 || ry < 1e-2) return false;
         return ((px - cx) ** 2) / (rx ** 2) + ((py - cy) ** 2) / (ry ** 2) <= 1;
+      }
+
+      // オフスクリーン用: scale/offsetなしで楕円を描画
+      function drawEllipseRaw(ctx, x1, y1, x2, y2, color, lineWidth, dashed = false) {
+        ctx.save();
+        ctx.beginPath();
+        const cx = (x1 + x2) / 2;
+        const cy = (y1 + y2) / 2;
+        const rx = Math.abs(x2 - x1) / 2;
+        const ry = Math.abs(y2 - y1) / 2;
+        ctx.ellipse(cx, cy, rx, ry, 0, 0, 2 * Math.PI);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = lineWidth;
+        if (dashed) ctx.setLineDash([6, 6]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
       }
 
       // 初期リサイズ

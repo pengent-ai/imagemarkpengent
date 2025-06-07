@@ -37,6 +37,29 @@ export function activate(context: vscode.ExtensionContext) {
 
 		const imageSrc = panel.webview.asWebviewUri(uri);
 		panel.webview.html = getWebviewContent(imageSrc.toString());
+
+		// WebViewからのメッセージ受信（保存処理）
+		panel.webview.onDidReceiveMessage(async (message) => {
+			if (message.type === 'save-image' && message.dataUrl) {
+				// ファイル保存ダイアログを表示
+				const uriSave = await vscode.window.showSaveDialog({
+					filters: { 'PNG Images': ['png'] },
+					saveLabel: '画像として保存'
+				});
+				if (!uriSave) return;
+				// dataUrlからbase64部分を抽出
+				const base64 = message.dataUrl.replace(/^data:image\/png;base64,/, '');
+				const buffer = Buffer.from(base64, 'base64');
+				const fs = require('fs');
+				fs.writeFile(uriSave.fsPath, buffer, (err: any) => {
+					if (err) {
+						vscode.window.showErrorMessage('画像の保存に失敗しました: ' + err.message);
+					} else {
+						vscode.window.showInformationMessage('画像を保存しました: ' + uriSave.fsPath);
+					}
+				});
+			}
+		});
 	});
 
 	context.subscriptions.push(disposable);
