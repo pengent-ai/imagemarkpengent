@@ -14,12 +14,19 @@ export function activate(context: vscode.ExtensionContext) {
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
 	const disposable = vscode.commands.registerCommand('imagemarkpengent.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
 		vscode.window.showInformationMessage('Hello World from ImageMarkPengent!');
 	});
 
+	const disposableOpenImageEditor = vscode.commands.registerCommand('imagemarkpengent.openImageEditor', (uri: vscode.Uri) => {
+		if (!uri || !uri.fsPath.match(/\.(png|jpg|jpeg)$/i)) {
+			vscode.window.showWarningMessage('対応画像ファイル（.png, .jpg, .jpeg）を選択してください。');
+			return;
+		}
+		vscode.window.showInformationMessage('画像編集コマンドが呼び出されました: ' + uri.fsPath);
+	});
+
 	context.subscriptions.push(disposable);
+	context.subscriptions.push(disposableOpenImageEditor);
 }
 
 // This method is called when your extension is deactivated

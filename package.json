@@ -9,15 +9,26 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand:imagemarkpengent.openImageEditor"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "imagemarkpengent.helloWorld",
-        "title": "Hello World"
+        "command": "imagemarkpengent.openImageEditor",
+        "title": "Open in ImageMarkPengent"
       }
-    ]
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "imagemarkpengent.openImageEditor",
+          "when": "resourceExtname =~ /\\.(png|jpg|jpeg)$/",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
