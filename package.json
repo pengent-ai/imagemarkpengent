@@ -3,7 +3,8 @@
   "displayName": "ImageMarkPengent",
   "description": "",
   "license": "MIT",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0",
+  "publisher": "PengentAIRyohYA",  
   "engines": {
     "vscode": "^1.99.0"
   },

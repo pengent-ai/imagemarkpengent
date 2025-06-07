@@ -164,11 +164,11 @@ GitHubやGitLabにリポジトリがある場合はrepositoryフィールドを�
 
 2. **公開**
 
-   ```bash
-   vsce publish
-   ```
+```bash
+vsce publish
+```
 
-   初回はアクセストークンが必要（Marketplace から取得）。
+初回はアクセストークンが必要（Marketplace から取得）。
 
 #### メリット
 
