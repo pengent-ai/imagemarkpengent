@@ -115,3 +115,63 @@ vscode.commands.registerCommand('imagemarkpengent.openImageEditor', (uri: vscode
   // ここに画像編集処理
 });
 ```
+
+## デプロイ方法
+
+VSCodeの拡張機能（extension）を実装した後、公開して他の人に使ってもらうには、主に以下の方法があります：
+
+---
+
+### ① **Visual Studio Code Marketplace に公開する（公式手順）**
+
+👉 一般的・標準的な方法。VSCode本体からインストール可能になる。
+
+#### 必要な準備
+
+1. **Microsoftアカウント** と **Publisherアカウント登録**
+
+* [Visual Studio Marketplace](https://marketplace.visualstudio.com/manage) で publisher を作成
+
+1. **`vsce` CLIツール のインストール**
+
+#### デプロイを実行する
+
+```bash
+npm install -g vsce
+```
+
+
+#### 公開手順
+
+1. **パッケージ作成**
+
+```bash
+vsce package
+```
+
+`.vsix` ファイルが生成される（ローカル配布にも使える）
+
+##### リンクエラーになった場合
+
+```error
+ ERROR  Couldn't detect the repository where this extension is published. The link './README.jp.md' will be broken in README.md. 
+```
+vsceが`package.json`に epositoryURLがないため、
+README内のリンク解決ができないというエラーです。
+
+GitHubやGitLabにリポジトリがある場合はrepositoryフィールドを入れるとOK。
+
+
+2. **公開**
+
+   ```bash
+   vsce publish
+   ```
+
+   初回はアクセストークンが必要（Marketplace から取得）。
+
+#### メリット
+
+* 世界中のユーザーに簡単に配布
+* 自動アップデート対応
+
