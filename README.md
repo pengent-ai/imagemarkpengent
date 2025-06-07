@@ -1,74 +1,99 @@
-# imagemarkpengent 
+[日本語のREADMEはこちら](./README.jp.md)
 
+# ImageMarkPengent
 
-![alt text](./readme/images/top.png)
-
-This is the README for your extension "imagemarkpengent". After writing up a brief description, we recommend including the following sections.
-
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+A VSCode extension for intuitively drawing red circle marks and annotations directly on images.
 
 ---
 
-## Following extension guidelines
+## Features
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+- Draw red circle marks directly on PNG/JPG images in VSCode
+- Change mark color/line width, move, resize, delete, Undo/Redo
+- Save as image (red marks merged at original image size)
+- Intuitive UI and keyboard shortcuts
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+---
 
-## Working with Markdown
+## Screenshot
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+![Top Screen](readme/images/top.png)
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+---
 
-## For more information
+## How to Use
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+### 1. Open an Image
+- Right-click a PNG/JPG image in the Explorer → `Open in ImageMarkPengent`
+- Or run `ImageMarkPengent: Open in ImageMarkPengent` from the Command Palette
 
-**Enjoy!**
+### 2. Draw a Mark
+- Click the "Add Mark" button (or Ctrl+drag)
+- Drag on the image to draw a red circle
+
+### 3. Edit Marks
+- Click the "Select Mode" button to select a mark
+- For the selected mark:
+    - Drag to move
+    - Drag the corner handles to resize
+    - Change color/line width from the toolbar
+    - Delete with the Delete key
+- Undo (Ctrl+Z) and Redo (Ctrl+Y) are available
+
+### 4. Save the Image
+- Click the "Save" button
+- Choose a file name and location; the image will be saved as PNG with red marks at the original size
+
+---
+
+## Toolbar Guide
+
+- **Move Mode**: Scroll/zoom the image
+- **Select Mode**: Select and edit marks
+- **Add Mark**: Add a new red circle mark
+- **Line Width/Color**: Change the mark's line width and color
+- **Save**: Save the edited image
+
+---
+
+## Keyboard Shortcuts
+
+- Ctrl+drag: Temporarily add a mark
+- Delete/Backspace: Delete selected mark
+- Ctrl+Z: Undo
+- Ctrl+Y: Redo
+- Esc: Return to Move Mode
+
+---
+
+## FAQ
+
+- **Q. Will the original image be overwritten?**
+  - A. You can specify a new file name when saving. The original image is not changed.
+- **Q. Can I edit multiple marks at once?**
+  - A. Multi-selection is not supported yet, but is planned for future updates.
+
+---
+
+## Sample Image
+
+![Sample Image](examples/sample_640x480.png)
+
+---
+
+## Install & Build
+
+1. Install dependencies
+   ```sh
+   yarn install
+   ```
+2. Build
+   ```sh
+   yarn compile
+   ```
+3. Press F5 to launch in debug mode
+
+---
+
+## License
+MIT License 
