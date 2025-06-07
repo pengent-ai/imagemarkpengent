@@ -28,7 +28,7 @@ export function activate(context: vscode.ExtensionContext) {
 		const panel = vscode.window.createWebviewPanel(
 			'imageEditor',
 			'ImageMarkPengent',
-			vscode.ViewColumn.One,
+			vscode.ViewColumn.Two,
 			{
 				enableScripts: true,
 				localResourceRoots: [vscode.Uri.file(path.dirname(uri.fsPath))]
