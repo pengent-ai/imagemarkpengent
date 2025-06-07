@@ -1,6 +1,8 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+const path = require('path');
+import { getWebviewContent } from './webviewContent';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -22,12 +24,22 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.window.showWarningMessage('対応画像ファイル（.png, .jpg, .jpeg）を選択してください。');
 			return;
 		}
-		vscode.window.showInformationMessage('画像編集コマンドが呼び出されました: ' + uri.fsPath);
+
+		const panel = vscode.window.createWebviewPanel(
+			'imageEditor',
+			'ImageMarkPengent',
+			vscode.ViewColumn.One,
+			{
+				enableScripts: true,
+				localResourceRoots: [vscode.Uri.file(path.dirname(uri.fsPath))]
+			}
+		);
+
+		const imageSrc = panel.webview.asWebviewUri(uri);
+		panel.webview.html = getWebviewContent(imageSrc.toString());
 	});
 
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(disposableOpenImageEditor);
 }
 
-// This method is called when your extension is deactivated
-export function deactivate() {}

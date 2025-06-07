@@ -29,7 +29,7 @@ VSCode拡張機能「ImageMarkPengent」の実装タスク一覧です。
 ### 1. コマンド登録と右クリックメニュー対応
 - [x] `package.json` にコマンドを登録する
 - [x] `explorer/context` メニューに「Open in ImageMarkPengent」を追加
-- [ ] 対象拡張子を `.png` / `.jpg` / `.jpeg` に限定
+- [x] 対象拡張子を `.png` / `.jpg` / `.jpeg` に限定
 
 ### 2. WebViewで画像表示
 - [ ] コマンド実行時にWebViewパネルを開く
