@@ -89,6 +89,9 @@ export function getWebviewContent(imageSrc: string): string {
       let markColor = colorPicker.value;
       let markLineWidth = parseInt(lineWidthSelect.value, 10);
 
+      // VS Code API を一度だけ取得
+      const vscode = window.acquireVsCodeApi ? window.acquireVsCodeApi() : null;
+
       // UIイベント
       moveBtn.onclick = () => setMode('move');
       selectBtn.onclick = () => setMode('select');
@@ -118,6 +121,7 @@ export function getWebviewContent(imageSrc: string): string {
         draw();
       };
       saveBtn.onclick = () => {
+        console.log('Save button onclick fired!');
         // 元画像サイズのオフスクリーンcanvasで保存
         const offCanvas = document.createElement('canvas');
         offCanvas.width = img.width;
@@ -130,9 +134,13 @@ export function getWebviewContent(imageSrc: string): string {
           drawEllipseRaw(offCtx, mark.x1, mark.y1, mark.x2, mark.y2, mark.color, mark.lineWidth);
         }
         const dataUrl = offCanvas.toDataURL('image/png');
-        if (window.acquireVsCodeApi) {
-          const vscode = window.acquireVsCodeApi();
+        console.log('Data URL created, checking VSCode API...');
+        if (vscode) {
+          console.log('VSCode API available, sending message...');
           vscode.postMessage({ type: 'save-image', dataUrl });
+          console.log('Message sent to extension');
+        } else {
+          console.log('VSCode API not available!');
         }
       };
 
