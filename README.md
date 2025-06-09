@@ -2,6 +2,8 @@
 
 # ImageMarkPengent
 
+![logo](readme/images/logo.png)
+
 A VSCode extension for intuitively drawing red circle marks and annotations directly on images.
 
 ---

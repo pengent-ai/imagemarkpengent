@@ -2,6 +2,8 @@
 
 VSCodeで画像に赤丸マークや注釈を直感的に描き込める拡張機能です。
 
+![logo](readme/images/logo.png)
+
 ---
 
 ## 主な特徴
